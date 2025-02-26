@@ -1,0 +1,29 @@
+FROM python:3.9
+
+# Set environment variables
+ENV PIP_NO_CACHE_DIR=no \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100 \
+    PYTHONUNBUFFERED=1
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install Microsoft Edge and Edge WebDriver
+RUN apt-get update && apt-get install -y wget unzip \
+    && wget https://msedgedriver.azureedge.net/$(curl -s https://msedgewebdriverstorage.blob.core.windows.net/edgewebdriver/LATEST_STABLE)/edgedriver_linux64.zip \
+    && unzip edgedriver_linux64.zip -d /usr/local/bin/ \
+    && rm edgedriver_linux64.zip
+
+# Copy the rest of the application
+COPY . .
+
+# Expose Flask default port
+EXPOSE 5000
+
+# Command to run the application
+CMD ["exec", "python", "flask_api.py"]
