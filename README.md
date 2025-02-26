@@ -22,7 +22,7 @@ The Universal Software Testing Suite is a robust, AI-powered test automation fra
 ### **Clone the Repository**
 ```bash
 git clone https://github.com/Wacko-Jacko/universal-test-suite.git
-cd universal-testing-suite
+cd universal-test-suite
 ```
 
 ### **Run Using Docker**
